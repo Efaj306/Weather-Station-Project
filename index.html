@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="css/index.css" />
+		<title>Weather Records</title>
+	</head>
+	<body>
+		<nav class="topnav">
+			<div class="left">
+				<a href="index.html" class="logo"> Weather Records </a>
+			</div>
+			<div class="right">
+				<a class="view active" href="index.html">Home</a>
+				<a class="view" href="wind_speed.html">Wind Speed</a>
+				<a class="view" href="wind_direction.html">Wind Direction</a>
+				<a class="view" href="measurements.html">All Records</a>
+			</div>
+		</nav>
+		<div class="contents" id="content">
+			<h1 class="title" id="title">Latest Measurements</h1>
+			<div class="header">
+				<div class="left">
+					<label for="sortBy">Sort By: </label>
+					<select name="sortBy" id="sortBy">
+						<option value="no">Serial No</option>
+						<option value="date">Date</option>
+						<option value="time">Time</option>
+						<option value="type">Type</option>
+						<option value="value">Value</option>
+					</select>
+				</div>
+				<div class="right">
+					<input
+						type="search"
+						placeholder="Search"
+						onkeyup="searchData()"
+						id="search"
+					/>
+				</div>
+			</div>
+			<table id="dataTable">
+				<thead>
+					<tr>
+						<th
+							title="Sort By Serial No"
+							onclick="sortTable(0, true);
+							document.getElementById('sortBy').selectedIndex = 0;"
+						>
+							No.
+						</th>
+						<th
+							title="Sort By Date"
+							onclick="sortTable(1, true); 
+							document.getElementById('sortBy').selectedIndex = 1;"
+						>
+							Date
+						</th>
+						<th
+							title="Sort By Time"
+							onclick="sortTable(2, true); 
+							document.getElementById('sortBy').selectedIndex = 2;"
+						>
+							Time
+						</th>
+						<th
+							title="Sort By Measurement Type"
+							onclick="sortTable(3); 
+							document.getElementById('sortBy').selectedIndex = 3;"
+						>
+							Measurement Type
+						</th>
+						<th
+							title="Sort By Value"
+							onclick="sortTable(4, true); 
+							document.getElementById('sortBy').selectedIndex = 4;"
+						>
+							Value
+						</th>
+					</tr>
+				</thead>
+				<tbody id="tableBody"></tbody>
+			</table>
+			<div class="loader" id="loading">Loading...</div>
+		</div>
+		<div class="buttons">
+			<a href="#content" style="padding: 0">
+				<img src="images/circled-up-2.png" alt="" />
+			</a>
+		</div>
+		<script src="js/index.js"></script>
+		<script>
+			const sortBy = document.getElementById("sortBy");
+			getLatestMeasurements();
+			sortBy.onchange = function () {
+				switch (sortBy.value) {
+					case "no":
+						sortTable(0, true);
+						break;
+					case "date":
+						sortTable(1, true);
+						break;
+					case "time":
+						sortTable(0, true);
+						break;
+					case "type":
+						sortTable(3);
+						break;
+					case "value":
+						sortTable(4);
+						break;
+					default:
+						sortTable(0);
+				}
+			};
+
+			function searchData() {
+				const input = document.getElementById("search");
+				const filter = input.value.toUpperCase();
+				const table = document.getElementById("dataTable");
+				const tr = table.getElementsByTagName("tr");
+				let td, i, txtValue;
+				for (i = 0; i < tr.length; i++) {
+					td = tr[i].getElementsByTagName("td")[3];
+					if (td) {
+						txtValue = td.textContent || td.innerText;
+						if (txtValue.toUpperCase().indexOf(filter) > -1) {
+							tr[i].style.display = "";
+						} else {
+							tr[i].style.display = "none";
+						}
+					}
+				}
+			}
+		</script>
+		<script src="js/sort.js"></script>
+	</body>
+</html>

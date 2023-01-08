@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="css/index.css" />
+		<title>Wind Direction</title>
+	</head>
+	<body>
+		<nav class="topnav">
+			<div class="left">
+				<a href="index.html" class="logo">
+					Weather Records
+				</a>
+			</div>
+			<div class="right">
+				<a class="view" href="index.html">Home</a>
+				<a class="view" href="wind_speed.html">Wind Speed</a>
+				<a class="view active" href="wind_direction.html">Wind Direction</a>
+				<a class="view" href="measurements.html">All Records</a>
+			</div>
+		</nav>
+		<div class="contents" id="content">
+			<h1 class="title" id="title">Wind Direction</h1>
+      <div class="header">
+        <div class="left">
+        </div>
+        <div class="right">
+          <label for="timeInterval">Time: </label>
+          <select name="" id="timeInterval">
+            <option value="">Now</option>
+            <option value="23">24 hours</option>
+            <option value="47">48 hours</option>
+            <option value="71">72 hours</option>
+            <option value="167">1 week</option>
+            <option value="719">1 month</option>
+          </select>
+        </div>
+      </div>
+			<!-- <div id="average">Average: <span id="value"></span></div> -->
+			<table id="dataTable">
+				<thead>
+					<tr>
+						<th onclick="sortTable(0, true)" title="Sort By Serial No">No.</th>
+						<th onclick="sortTable(1, true)" title="Sort By Date">Date</th>
+						<th onclick="sortTable(2, true)" title="Sort By Time">Time</th>
+						<th onclick="sortTable(3, true)" title="Sort By Value">Value</th>
+					</tr>
+				</thead>
+				<tbody id="tableBody"></tbody>
+			</table>
+			<div class="loader" id="loading">Loading...</div>
+      <div id="chart"></div>
+      <div class="buttons">
+        <a href="#content">
+          <img src="images/table-icon.png" alt="">
+        </a>
+        <a href="#chart">
+          <img src="images/chart-icon.png" alt="">
+        </a>
+      </div>
+		</div>
+    <script src="js/echarts.min.js"></script>
+		<script src="js/measurements.js"></script>
+		<script>
+      const myChart = echarts.init(document.getElementById('chart'));
+      const timeInterval = document.getElementById("timeInterval");
+      timeInterval.onchange = function() {
+        showTableAndChart("bar", "wind_direction", timeInterval.value);
+      }
+      showTableAndChart("bar", "wind_direction");
+		</script>
+		<script src="/js/sort.js"></script>
+	</body>
+</html>
